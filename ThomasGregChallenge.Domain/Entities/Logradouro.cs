@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ThomasGregChallenge.Domain.Entities
 {
-    public class Logradouro
+    public sealed class Logradouro
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(150, ErrorMessage = "Endereço não pode ser maior do que 100 caracteres")]
@@ -33,14 +33,14 @@ namespace ThomasGregChallenge.Domain.Entities
 
         [ForeignKey("ClienteId")]
         [Required]
-        public Guid ClienteId { get;  set; }
+        public int ClienteId { get;  set; }
 
         public Logradouro()
         {
                 
         }
 
-        public Logradouro(string endereco, string numero, string bairro, string cidade, string estado, string? complemento, Guid clienteId)
+        public Logradouro(string endereco, string numero, string bairro, string cidade, string estado, string? complemento, int clienteId)
         {
             Endereco = endereco;
             Numero = numero;

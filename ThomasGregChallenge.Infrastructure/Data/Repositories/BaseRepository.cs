@@ -3,16 +3,16 @@ using ThomasGregChallenge.Domain.Interfaces.Repositories;
 
 namespace ThomasGregChallenge.Infrastructure.Data.Repositories
 {
-    public class BaseRepository<TEntity>(SqlContext unitOfWork) : IBaseRepository<TEntity> where TEntity : class
+    public class BaseRepository<TEntity>(SqlContext sqlContext) : IBaseRepository<TEntity> where TEntity : class
     {
-        private readonly SqlContext _unitOfWork = unitOfWork;
+        private readonly SqlContext _sqlContext = sqlContext;
 
         public async Task AddRangeAsync(List<TEntity> entities, CancellationToken cancellationToken)
         {
             try
             {
-                _unitOfWork.Set<TEntity>().AddRange(entities);
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                _sqlContext.Set<TEntity>().AddRange(entities);
+                await _sqlContext.SaveChangesAsync(cancellationToken);
             }
             catch (Exception)
             {
@@ -24,8 +24,8 @@ namespace ThomasGregChallenge.Infrastructure.Data.Repositories
         {
             try
             {
-                _unitOfWork.Set<TEntity>().Add(entity);
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                _sqlContext.Set<TEntity>().Add(entity);
+                await _sqlContext.SaveChangesAsync(cancellationToken);
             }
             catch (Exception)
             {
@@ -38,8 +38,8 @@ namespace ThomasGregChallenge.Infrastructure.Data.Repositories
         {
             try
             {
-                _unitOfWork.Entry(entity).State = EntityState.Modified;
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                _sqlContext.Entry(entity).State = EntityState.Modified;
+                await _sqlContext.SaveChangesAsync(cancellationToken);
             }
             catch (Exception)
             {
@@ -52,8 +52,8 @@ namespace ThomasGregChallenge.Infrastructure.Data.Repositories
         {
             try
             {
-                _unitOfWork.Entry(entities).State = EntityState.Modified;
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                _sqlContext.Entry(entities).State = EntityState.Modified;
+                await _sqlContext.SaveChangesAsync(cancellationToken);
             }
             catch (Exception)
             {
@@ -66,8 +66,8 @@ namespace ThomasGregChallenge.Infrastructure.Data.Repositories
         {
             try
             {
-                _unitOfWork.Set<TEntity>().Remove(entity);
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                _sqlContext.Set<TEntity>().Remove(entity);
+                await _sqlContext.SaveChangesAsync(cancellationToken);
             }
             catch (Exception)
             {
@@ -80,8 +80,8 @@ namespace ThomasGregChallenge.Infrastructure.Data.Repositories
         {
             try
             {
-                _unitOfWork.Set<TEntity>().RemoveRange(entities);
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                _sqlContext.Set<TEntity>().RemoveRange(entities);
+                await _sqlContext.SaveChangesAsync(cancellationToken);
             }
             catch (Exception)
             {
@@ -94,7 +94,7 @@ namespace ThomasGregChallenge.Infrastructure.Data.Repositories
         {
             try
             {
-                return await _unitOfWork.Set<TEntity>().ToListAsync(cancellationToken);
+                return await _sqlContext.Set<TEntity>().ToListAsync(cancellationToken);
             }
             catch (Exception)
             {
@@ -103,11 +103,11 @@ namespace ThomasGregChallenge.Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             try
             {
-                return await _unitOfWork.Set<TEntity>().FindAsync([new { Id = id }, cancellationToken], cancellationToken);
+                return await _sqlContext.Set<TEntity>().FindAsync(new object[] { id }, cancellationToken);
             }
             catch (Exception)
             {

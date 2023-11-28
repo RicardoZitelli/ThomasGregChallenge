@@ -20,5 +20,12 @@ namespace ThomasGregChallenge.Infrastructure.Data.Repositories
                 x.Numero.Contains(description, StringComparison.CurrentCultureIgnoreCase))
                 .ToList();
         }
+
+        public async Task<IEnumerable<Logradouro>> GetByClientIdAsync(int clienteId, CancellationToken cancellationToken)
+        {
+            var logradouros = await _sqlContext.Set<Logradouro>().ToListAsync(cancellationToken);
+
+            return logradouros.Where(x =>x.ClienteId == clienteId).ToList();
+        }
     }
 }

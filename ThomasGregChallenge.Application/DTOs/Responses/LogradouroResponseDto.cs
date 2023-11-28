@@ -1,6 +1,4 @@
-﻿using ThomasGregChallenge.Domain.Entities;
-
-namespace ThomasGregChallenge.Application.DTOs.Responses
+﻿namespace ThomasGregChallenge.Application.DTOs.Responses
 {
-    public record LogradouroResponseDto(Logradouro Logradouro);    
+    public sealed record LogradouroResponseDto(int Id, string Endereco, string Numero,string Bairro, string Estado, string Complemento, int ClienteId);
 }

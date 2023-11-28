@@ -1,7 +1,4 @@
-﻿using ThomasGregChallenge.Domain.Entities;
-
-namespace ThomasGregChallenge.Application.DTOs.Requests
+﻿namespace ThomasGregChallenge.Application.DTOs.Requests
 {
-    public record LogradouroRequestDto(IEnumerable<Logradouro> Logradouro);
-    
+    public sealed record LogradouroRequestDto(int Id, string Endereco, string Numero, string Bairro, string Cidade, string Estado, string Complemento, int ClienteId);    
 }

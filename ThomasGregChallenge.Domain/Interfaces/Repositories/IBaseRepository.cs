@@ -9,6 +9,6 @@
         Task DeleteAsync(TEntity entity, CancellationToken cancellationToken);
         Task DeleteAllAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken);
         Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
-        Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken);
     }
 }

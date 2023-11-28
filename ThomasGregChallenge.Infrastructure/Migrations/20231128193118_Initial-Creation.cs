@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace ThomasGregChallenge.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialCreation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +14,8 @@ namespace ThomasGregChallenge.Infrastructure.Migrations
                 name: "Cliente",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Logotipo = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
@@ -29,14 +29,15 @@ namespace ThomasGregChallenge.Infrastructure.Migrations
                 name: "Logradouro",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Endereco = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Numero = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Bairro = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Cidade = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Estado = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     Complemento = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    ClienteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ClienteId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

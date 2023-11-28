@@ -7,12 +7,13 @@ using ThomasGregChallenge.Domain.Interfaces.Services;
 
 namespace ThomasGregChallenge.Application.Services
 {
-    public class ClienteApplicationService(IClienteService clienteService, IMapper mapper) : IClienteApplicationService
+    public sealed class ClienteApplicationService(IClienteService clienteService,        
+        IMapper mapper) : IClienteApplicationService
     {
-        private readonly IClienteService _clienteService = clienteService;
+        private readonly IClienteService _clienteService = clienteService;        
         private readonly IMapper _mapper = mapper;
 
-        public async Task DeleteAsync(Guid clienteId, CancellationToken cancellationToken)
+        public async Task DeleteAsync(int clienteId, CancellationToken cancellationToken)
         {
             try
             {
@@ -28,7 +29,7 @@ namespace ThomasGregChallenge.Application.Services
             }
         }
 
-        public async Task<ClienteResponseDto> GetByIdAsync(Guid clienteId, CancellationToken cancellationToken)
+        public async Task<ClienteResponseDto> GetByIdAsync(int clienteId, CancellationToken cancellationToken)
         {
             try
             {
@@ -59,15 +60,18 @@ namespace ThomasGregChallenge.Application.Services
            
         }
 
-        public Task SaveAsync(ClienteRequestDto clienteRequestDto, CancellationToken cancellationToken)
+        public async Task SaveAsync(ClienteRequestDto clienteRequestDto, CancellationToken cancellationToken)
         {
             try
             {
+                var clienteJaExiste = await _clienteService.GetByDescriptionAsync(clienteRequestDto.Email, cancellationToken);
+
+                if (clienteJaExiste.Any())
+                    throw new Exception("Cliente já existe na base de dados");
+
                 var cliente = _mapper.Map<Cliente>(clienteRequestDto);
 
-                _clienteService.AddAsync(cliente, cancellationToken);
-
-                return Task.CompletedTask;
+                await _clienteService.AddAsync(cliente, cancellationToken);               
             }
             catch (Exception)
             {
@@ -76,21 +80,26 @@ namespace ThomasGregChallenge.Application.Services
             }           
         }
 
-        public Task UpdateAsync(ClienteRequestDto clienteRequestDto, CancellationToken cancellationToken)
+        public async Task UpdateAsync(ClienteRequestDto clienteRequestDto, CancellationToken cancellationToken)
         {
             try
             {
                 var cliente = _mapper.Map<Cliente>(clienteRequestDto);
-
-                _clienteService.AddAsync(cliente, cancellationToken);
-
-                return Task.CompletedTask;
+                                
+                await _clienteService.UpdateAsync(cliente, cancellationToken);                                
             }
             catch (Exception)
             {
 
                 throw;
             }            
+        }
+
+        public async Task<IEnumerable<ClienteResponseDto>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            var clientes = await _clienteService.GetAllAsync(cancellationToken);
+
+            return _mapper.Map<IEnumerable<ClienteResponseDto>>(clientes);
         }
     }
 }

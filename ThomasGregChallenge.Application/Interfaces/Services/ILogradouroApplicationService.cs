@@ -7,8 +7,9 @@ namespace ThomasGregChallenge.Application.Interfaces.Services
     {
         Task SaveAsync(LogradouroRequestDto clienteRequestDto, CancellationToken cancellationToken);
         Task UpdateAsync(LogradouroRequestDto clienteRequestDto, CancellationToken cancellationToken);
-        Task DeleteAsync(Guid logradouroId, CancellationToken cancellationToken);
-        Task<LogradouroResponseDto> GetByIdAsync(Guid logradouroId, CancellationToken cancellationToken);        
+        Task DeleteAsync(int logradouroId, CancellationToken cancellationToken);
+        Task<LogradouroResponseDto> GetByIdAsync(int logradouroId, CancellationToken cancellationToken);        
         Task<IEnumerable<LogradouroResponseDto>> GetByDescriptionAsync(string description, CancellationToken cancellationToken);
+        Task<IEnumerable<LogradouroResponseDto>> GetAllAsync(CancellationToken cancellationToken);
     }
 }

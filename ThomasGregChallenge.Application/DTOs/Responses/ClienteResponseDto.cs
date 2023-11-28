@@ -2,6 +2,6 @@
 
 namespace ThomasGregChallenge.Application.DTOs.Responses
 {  
-    public record ClienteResponseDto(string Nome, string Email, string Logotipo, List<Logradouro> Logradouros);
+    public sealed record ClienteResponseDto(int Id, string Nome, string Email, string Logotipo);
     
 }

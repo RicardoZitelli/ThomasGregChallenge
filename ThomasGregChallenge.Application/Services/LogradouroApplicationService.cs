@@ -7,12 +7,12 @@ using ThomasGregChallenge.Domain.Interfaces.Services;
 
 namespace ThomasGregChallenge.Application.Services
 {
-    public class LogradouroApplicationService(ILogradouroService logradouroService, IMapper mapper) : ILogradouroApplicationService
+    public sealed class LogradouroApplicationService(ILogradouroService logradouroService, IMapper mapper) : ILogradouroApplicationService
     {
         private readonly ILogradouroService _logradouroService = logradouroService;
         private readonly IMapper _mapper = mapper;
 
-        public async Task DeleteAsync(Guid logradouroId, CancellationToken cancellationToken)
+        public async Task DeleteAsync(int logradouroId, CancellationToken cancellationToken)
         {
             try
             {
@@ -24,6 +24,20 @@ namespace ThomasGregChallenge.Application.Services
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<LogradouroResponseDto>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var logradouros = await _logradouroService.GetAllAsync(cancellationToken);
+
+                return _mapper.Map<IEnumerable<LogradouroResponseDto>>(logradouros);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
@@ -43,7 +57,7 @@ namespace ThomasGregChallenge.Application.Services
             }
         }
 
-        public async Task<LogradouroResponseDto> GetByIdAsync(Guid logradouroId, CancellationToken cancellationToken)
+        public async Task<LogradouroResponseDto> GetByIdAsync(int logradouroId, CancellationToken cancellationToken)
         {
             try
             {

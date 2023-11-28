@@ -9,6 +9,6 @@ public interface IBaseService<TEntity> where TEntity : class
     Task DeleteAsync(TEntity obj, CancellationToken cancellationToken);
     Task DeleteAllAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken);
     Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
-    Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken);
 }
 
