@@ -8,9 +8,11 @@ namespace ThomasGregChallenge.Application.Mapping
     public sealed class MappingProfile : Profile
     {
         public MappingProfile() {
-            CreateMap<ClienteRequestDto, Cliente>();
-                //.ForMember(dest => dest.Logradouros, opt => opt.Ignore()); 
+            CreateMap<ClienteRequestDto, Cliente>();                
             CreateMap<Cliente, ClienteResponseDto>();
+
+            CreateMap<ClienteLogradouroRequestDto, Cliente>();
+            CreateMap<Cliente, ClienteLogradouroResponseDto>();
 
             CreateMap<LogradouroRequestDto, Logradouro>();
             CreateMap<Logradouro, LogradouroResponseDto>();                      

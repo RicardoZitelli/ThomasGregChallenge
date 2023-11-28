@@ -5,7 +5,7 @@ namespace ThomasGregChallenge.Application.Interfaces.Services
 {
     public interface IClienteApplicationService
     {
-        Task SaveAsync(ClienteRequestDto clienteRequestDto, CancellationToken cancellationToken);
+        Task SaveAsync(ClienteLogradouroRequestDto clienteRequestDto, CancellationToken cancellationToken);
         Task UpdateAsync(ClienteRequestDto clienteRequestDto, CancellationToken cancellationToken);
         Task DeleteAsync(int clienteId, CancellationToken cancellationToken);
         Task<ClienteResponseDto> GetByIdAsync(int clienteId, CancellationToken cancellationToken);

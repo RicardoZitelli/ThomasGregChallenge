@@ -23,13 +23,13 @@ namespace ThomasGregChallenge.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> SaveAsync(ClienteRequestDto clienteLogradouroRequestDto, CancellationToken cancellationToken)
+        public async Task<ActionResult> SaveAsync(ClienteLogradouroRequestDto clienteLogradouroRequestDto, CancellationToken cancellationToken)
         {
             try
             {
                 if (clienteLogradouroRequestDto is null)
                     return BadRequest("Ops, o objeto Cliente está nulo");
-
+                                
                 await _clienteApplicationService.SaveAsync(clienteLogradouroRequestDto, cancellationToken);
 
                 return Ok("Cliente cadastrado com sucesso");
@@ -56,9 +56,9 @@ namespace ThomasGregChallenge.Controllers
                 if (clienteRequestDto is null ||
                     clienteRequestDto.Id == 0)
                     return BadRequest("Ops, nenhum cliente foi identificado");
-
+                
                 await _clienteApplicationService.UpdateAsync(clienteRequestDto!, cancellationToken);
-
+                
                 return Ok("Cliente atualizado com sucesso");
             }
             catch (Exception ex)
