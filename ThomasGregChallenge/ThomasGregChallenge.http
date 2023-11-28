@@ -1,6 +1,6 @@
 @ThomasGregChallenge_HostAddress = http://localhost:5009
 
-GET {{ThomasGregChallenge_HostAddress}}/weatherforecast/
+GET {{ThomasGregChallenge_HostAddress}}/Cliente/
 Accept: application/json
 
 ###

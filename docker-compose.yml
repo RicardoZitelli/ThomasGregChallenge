@@ -1,0 +1,43 @@
+version: '3.4'
+
+networks:
+    thomasgregchallengeapp:
+
+services:
+  thomasgregchallengedb:
+    container_name: thomasgregchallengedb
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1433:1433
+    environment: 
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=1Q2w3e4r
+      - MSSQL_SA_PASSWORD=1Q2w3e4r      
+      - MSSQL_PID=Express
+    networks:
+       - thomasgregchallengeapp
+    volumes:  
+      - sqlserver_data:/var/opt/mssql  
+  thomasgregchallenge:
+    container_name: thomasgregchallengeui
+    image: ${DOCKER_REGISTRY-}thomasgregchallenge
+    build:
+      context: .
+      dockerfile: ThomasGregChallenge/Dockerfile
+    ports:
+      - 8085:82
+      - 56321:445
+    depends_on:
+      - thomasgregchallengedb
+    environment:
+      - DB_HOST=thomasgregchallengedb
+      - DB_NAME=thomasgregchallengedb
+      - DB_SA_USER_ID=sa
+      - DB_SA_PASSWORD=1Q2w3e4r
+      - DB_PORT=1433
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:445;http://+:82
+    networks:
+      - thomasgregchallengeapp
+volumes:
+  sqlserver_data: 
