@@ -25,12 +25,7 @@ namespace ThomasGregChallenge.Infrastructure.CrossCutting.IOC
         }
 
         private static void ConfigureValidators(ContainerBuilder builder)
-        {
-            builder
-                .RegisterType<ClienteLogradouroRequestDtoValidator>()
-                .As<IValidator<ClienteLogradouroRequestDto>>()
-                .InstancePerLifetimeScope();
-
+        {           
             builder
                 .RegisterType<ClienteRequestDtoValidator>()
                 .As<IValidator<ClienteRequestDto>>()

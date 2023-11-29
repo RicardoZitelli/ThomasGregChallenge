@@ -90,7 +90,7 @@ namespace ThomasGregChallenge.Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
+        public async virtual Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
         {
             try
             {

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using ThomasGregChallenge.Application.DTOs.Requests;
 using ThomasGregChallenge.Application.DTOs.Responses;
 using ThomasGregChallenge.Application.Interfaces.Services;
-using ThomasGregChallenge.Validators;
 
 namespace ThomasGregChallenge.Controllers
 {
@@ -14,19 +13,20 @@ namespace ThomasGregChallenge.Controllers
     [ApiController]
     public class ClienteController(IClienteApplicationService clienteApplicationService) : ControllerBase
     {
-        private readonly IClienteApplicationService _clienteApplicationService = clienteApplicationService;        
+        private readonly IClienteApplicationService _clienteApplicationService = clienteApplicationService;
 
         /// <summary>
         /// Este endpoint é responsável por inserir um novo cliente ao banco de dados
         /// </summary>
         /// <param name="clienteLogradouroRequestDto"></param>
+        /// <param name="validator"></param>
         /// <param name="cancellationToken"></param>        
         [HttpPost("Gravar")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> SaveAsync(ClienteLogradouroRequestDto clienteLogradouroRequestDto,
-            [FromServices] IValidator<ClienteLogradouroRequestDto> validator, 
+        public async Task<ActionResult> SaveAsync(ClienteRequestDto clienteLogradouroRequestDto,
+            [FromServices] IValidator<ClienteRequestDto> validator, 
             CancellationToken cancellationToken)
         {
             try
@@ -34,7 +34,7 @@ namespace ThomasGregChallenge.Controllers
                 if (clienteLogradouroRequestDto is null)
                     return BadRequest("Ops, o objeto Cliente está nulo");
 
-                var modelStateDictionary = await GenericValidator.ValidateRequest(validator, clienteLogradouroRequestDto);
+                var modelStateDictionary = await GenericValidatorHelpers.ValidateRequest(validator, clienteLogradouroRequestDto);
              
                 if (modelStateDictionary is not null)
                     return ValidationProblem(modelStateDictionary);
@@ -48,12 +48,13 @@ namespace ThomasGregChallenge.Controllers
                 return BadRequest($"Algo deu errado. {ex.Message}");
             }
         }
-        
+
         /// <summary>
         /// Este endpoint é responsável por atualizar um cliente no banco de dados
         /// </summary>
         /// <param name="clienteRequestDto"></param>
         /// <param name="cancellationToken"></param>        
+        /// <param name="validator"></param>        
         [HttpPut("Atualizar")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -68,7 +69,7 @@ namespace ThomasGregChallenge.Controllers
                     clienteRequestDto.Id == 0)
                     return BadRequest("Ops, nenhum cliente foi identificado");
 
-                var modelStateDictionary = await GenericValidator.ValidateRequest(validator, clienteRequestDto);
+                var modelStateDictionary = await GenericValidatorHelpers.ValidateRequest(validator, clienteRequestDto);
 
                 if (modelStateDictionary is not null)
                     return ValidationProblem(modelStateDictionary);

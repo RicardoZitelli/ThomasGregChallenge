@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using ThomasGregChallenge.Application.DTOs.Requests;
 using ThomasGregChallenge.Application.DTOs.Responses;
 using ThomasGregChallenge.Application.Interfaces.Services;
-using ThomasGregChallenge.Validators;
 
 namespace ThomasGregChallenge.Controllers
 {
@@ -20,6 +19,7 @@ namespace ThomasGregChallenge.Controllers
         /// Este endpoint é responsável por inserir um novo logradouro ao banco de dados
         /// </summary>
         /// <param name="logradouroRequestDto"></param>
+        /// <param name="validator"></param>      
         /// <param name="cancellationToken"></param>        
         [HttpPost("Gravar")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -34,7 +34,7 @@ namespace ThomasGregChallenge.Controllers
                 if (logradouroRequestDto is null)
                     return BadRequest("Ops, o objeto Logradouro está nulo");
 
-                var modelStateDictionary = await GenericValidator.ValidateRequest(validator, logradouroRequestDto);
+                var modelStateDictionary = await GenericValidatorHelpers.ValidateRequest(validator, logradouroRequestDto);
 
                 if (modelStateDictionary is not null)
                     return ValidationProblem(modelStateDictionary);
@@ -53,7 +53,8 @@ namespace ThomasGregChallenge.Controllers
         /// Este endpoint é responsável por atualizar um logradouro no banco de dados
         /// </summary>
         /// <param name="logradouroRequestDto"></param>
-        /// <param name="cancellationToken"></param>        
+        /// <param name="validator"></param>        
+        /// <param name="cancellationToken"></param>                
         [HttpPut("Atualizar")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -68,7 +69,7 @@ namespace ThomasGregChallenge.Controllers
                     logradouroRequestDto.Id == 0)
                     return BadRequest("Ops, nenhum logradouro foi identificado");
 
-                var modelStateDictionary = await GenericValidator.ValidateRequest(validator, logradouroRequestDto);
+                var modelStateDictionary = await GenericValidatorHelpers.ValidateRequest(validator, logradouroRequestDto);
 
                 if (modelStateDictionary is not null)
                     return ValidationProblem(modelStateDictionary);

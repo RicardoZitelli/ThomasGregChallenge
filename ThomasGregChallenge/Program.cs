@@ -4,21 +4,31 @@ using Autofac.Extensions.DependencyInjection;
 using Autofac;
 using ThomasGregChallenge.Infrastructure.CrossCutting.IOC;
 using ThomasGregChallenge.Application.Mapping;
-using FluentValidation.AspNetCore;
-using FluentValidation;
-using ThomasGregChallenge.Application.DTOs.Requests;
-using ThomasGregChallenge.Application.Validators;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1",
+        new OpenApiInfo
+        {
+            Title = "Thomas Greg Challenge - V1",
+            Version = "v1"
+        }
+     );
+
+    var filePath = Path.Combine(AppContext.BaseDirectory, "ThomasGregChallenge.xml");
+    c.IncludeXmlComments(filePath);
+
+});
 
 var connectionString = builder
     .Configuration
-    .GetConnectionString("DefaultConnectionOld")?
+    .GetConnectionString("DefaultConnection")?
     .Replace("{Server}", Environment.GetEnvironmentVariable("DB_HOST"))
     .Replace("{Port}", Environment.GetEnvironmentVariable("DB_PORT"))
     .Replace("{Database}", Environment.GetEnvironmentVariable("DB_NAME"))

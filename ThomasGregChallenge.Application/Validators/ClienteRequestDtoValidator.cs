@@ -15,7 +15,7 @@ namespace ThomasGregChallenge.Application.Validators
 
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .WithMessage("E-mail não pode ser vazios")
+                .WithMessage("E-mail não pode ser vazio")
                 .MaximumLength(150)
                 .WithMessage("E-mail deve ter no máximo 150 caracteres");
 

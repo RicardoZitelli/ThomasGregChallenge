@@ -60,7 +60,7 @@ namespace ThomasGregChallenge.Application.Services
 
         }
 
-        public async Task SaveAsync(ClienteLogradouroRequestDto clienteRequestDto, CancellationToken cancellationToken)
+        public async Task SaveAsync(ClienteRequestDto clienteRequestDto, CancellationToken cancellationToken)
         {
             try
             {                
