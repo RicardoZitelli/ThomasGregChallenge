@@ -10,7 +10,10 @@ namespace ThomasGregChallenge.Infrastructure.Data.Repositories
 
         public async Task<IEnumerable<Cliente>> GetByDescriptionAsync(string description, CancellationToken cancellationToken)
         {
-            var clientes = await _sqlContext.Set<Cliente>().ToListAsync(cancellationToken);
+            var clientes = await _sqlContext
+                .Set<Cliente>()
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
 
             return clientes.Where(x =>                 
                 x.Nome.Contains(description,StringComparison.CurrentCultureIgnoreCase) ||

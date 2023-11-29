@@ -8,74 +8,74 @@ using ThomasGregChallenge.Validators;
 namespace ThomasGregChallenge.Controllers
 {
     /// <summary>
-    /// Controller utilizado para inserir, atualizar, excluir, obter e listar dados do cliente
+    /// Controller utilizado para inserir, atualizar, excluir, obter e listar dados do logradouro
     /// </summary>    
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class ClienteController(IClienteApplicationService clienteApplicationService) : ControllerBase
+    public class LogradouroController(ILogradouroApplicationService logradouroApplicationService) : ControllerBase
     {
-        private readonly IClienteApplicationService _clienteApplicationService = clienteApplicationService;        
+        private readonly ILogradouroApplicationService _logradouroApplicationService = logradouroApplicationService;
 
         /// <summary>
-        /// Este endpoint é responsável por inserir um novo cliente ao banco de dados
+        /// Este endpoint é responsável por inserir um novo logradouro ao banco de dados
         /// </summary>
-        /// <param name="clienteLogradouroRequestDto"></param>
+        /// <param name="logradouroRequestDto"></param>
         /// <param name="cancellationToken"></param>        
         [HttpPost("Gravar")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> SaveAsync(ClienteLogradouroRequestDto clienteLogradouroRequestDto,
-            [FromServices] IValidator<ClienteLogradouroRequestDto> validator, 
+        public async Task<ActionResult> SaveAsync(LogradouroRequestDto logradouroRequestDto,
+            [FromServices] IValidator<LogradouroRequestDto> validator,
             CancellationToken cancellationToken)
         {
             try
             {
-                if (clienteLogradouroRequestDto is null)
-                    return BadRequest("Ops, o objeto Cliente está nulo");
+                if (logradouroRequestDto is null)
+                    return BadRequest("Ops, o objeto Logradouro está nulo");
 
-                var modelStateDictionary = await GenericValidator.ValidateRequest(validator, clienteLogradouroRequestDto);
-             
+                var modelStateDictionary = await GenericValidator.ValidateRequest(validator, logradouroRequestDto);
+
                 if (modelStateDictionary is not null)
                     return ValidationProblem(modelStateDictionary);
-                                                
-                await _clienteApplicationService.SaveAsync(clienteLogradouroRequestDto, cancellationToken);
 
-                return Ok("Cliente cadastrado com sucesso");
+                await _logradouroApplicationService.SaveAsync(logradouroRequestDto, cancellationToken);
+
+                return Ok("Logradouro cadastrado com sucesso");
             }
             catch (Exception ex)
             {
                 return BadRequest($"Algo deu errado. {ex.Message}");
             }
         }
-        
+
         /// <summary>
-        /// Este endpoint é responsável por atualizar um cliente no banco de dados
+        /// Este endpoint é responsável por atualizar um logradouro no banco de dados
         /// </summary>
-        /// <param name="clienteRequestDto"></param>
+        /// <param name="logradouroRequestDto"></param>
         /// <param name="cancellationToken"></param>        
         [HttpPut("Atualizar")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateAsync(ClienteRequestDto clienteRequestDto,
-            [FromServices] IValidator<ClienteRequestDto> validator, 
+        public async Task<ActionResult> UpdateAsync(LogradouroRequestDto logradouroRequestDto,
+            [FromServices] IValidator<LogradouroRequestDto> validator,
             CancellationToken cancellationToken)
         {
             try
             {
-                if (clienteRequestDto is null || 
-                    clienteRequestDto.Id == 0)
-                    return BadRequest("Ops, nenhum cliente foi identificado");
+                if (logradouroRequestDto is null ||
+                    logradouroRequestDto.Id == 0)
+                    return BadRequest("Ops, nenhum logradouro foi identificado");
 
-                var modelStateDictionary = await GenericValidator.ValidateRequest(validator, clienteRequestDto);
+                var modelStateDictionary = await GenericValidator.ValidateRequest(validator, logradouroRequestDto);
 
                 if (modelStateDictionary is not null)
                     return ValidationProblem(modelStateDictionary);
 
-                await _clienteApplicationService.UpdateAsync(clienteRequestDto!, cancellationToken);
-                
-                return Ok("Cliente atualizado com sucesso");
+                await _logradouroApplicationService.UpdateAsync(logradouroRequestDto!, cancellationToken);
+
+                return Ok("Logradouro atualizado com sucesso");
             }
             catch (Exception ex)
             {
@@ -84,25 +84,25 @@ namespace ThomasGregChallenge.Controllers
         }
 
         /// <summary>
-        /// Este endpoint é responsável por excluir um cliente do banco de dados
+        /// Este endpoint é responsável por excluir um logradouro do banco de dados
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="logradouroId"></param>
         /// <param name="cancellationToken"></param>        
         [HttpDelete("Excluir")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteAsync(int id, 
+        public async Task<ActionResult> DeleteAsync(int logradouroId,
             CancellationToken cancellationToken)
         {
             try
             {
-                if (id == 0)
-                    return BadRequest("Ops, nenhum cliente foi identificado");
+                if (logradouroId == 0)
+                    return BadRequest("Ops, nenhum logradouro foi identificado");
 
-                await _clienteApplicationService.DeleteAsync(id, cancellationToken);
+                await _logradouroApplicationService.DeleteAsync(logradouroId, cancellationToken);
 
-                return Ok("Cliente excluído com sucesso");
+                return Ok("Logradouro excluído com sucesso");
             }
             catch (Exception ex)
             {
@@ -111,15 +111,15 @@ namespace ThomasGregChallenge.Controllers
         }
 
         /// <summary>
-        /// Este endpoint é responsável por listar todos os clientes do banco de dados
+        /// Este endpoint é responsável por listar todos os logradouros do banco de dados
         /// </summary>        
         /// <param name="cancellationToken"></param>        
         [HttpGet("Listar")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IEnumerable<ClienteResponseDto>> ListarAsync(CancellationToken cancellationToken) =>
-            await _clienteApplicationService.GetAllAsync(cancellationToken);
+        public async Task<IEnumerable<LogradouroResponseDto>> ListarAsync(CancellationToken cancellationToken) =>
+            await _logradouroApplicationService.GetAllAsync(cancellationToken);
 
         /// <summary>
         /// Este endpoint é responsável por obter um cliente do banco de dados
@@ -130,12 +130,12 @@ namespace ThomasGregChallenge.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ClienteResponseDto> ObterAsync([FromRoute] int id, 
+        public async Task<LogradouroResponseDto> ObterAsync([FromRoute] int id,
             CancellationToken cancellationToken) =>
-            await _clienteApplicationService.GetByIdAsync(id, cancellationToken);
+            await _logradouroApplicationService.GetByIdAsync(id, cancellationToken);
 
         /// <summary>
-        /// Este endpoint é responsável por obter um cliente do banco de dados
+        /// Este endpoint é responsável por obter um logradouro do banco de dados
         /// </summary>
         /// <param name="description"></param>
         /// <param name="cancellationToken"></param>        
@@ -143,8 +143,8 @@ namespace ThomasGregChallenge.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IEnumerable<ClienteResponseDto>> ObterAsync([FromQuery] string description, 
+        public async Task<IEnumerable<LogradouroResponseDto>> ObterAsync([FromQuery] string description,
             CancellationToken cancellationToken) =>
-            await _clienteApplicationService.GetByDescriptionAsync(description, cancellationToken);      
+            await _logradouroApplicationService.GetByDescriptionAsync(description, cancellationToken);
     }
 }

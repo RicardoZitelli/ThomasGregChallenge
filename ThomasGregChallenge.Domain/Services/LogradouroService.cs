@@ -11,11 +11,7 @@ namespace ThomasGregChallenge.Domain.Services
         public async Task<IEnumerable<Logradouro>> GetByClientIdAsync(int clienteId, CancellationToken cancellationToken) =>
            await _logradouroRepository.GetByClientIdAsync(clienteId, cancellationToken);
 
-
         public async Task<IEnumerable<Logradouro>> GetByDescriptionAsync(string description, CancellationToken cancellationToken) => 
-            await _logradouroRepository.GetByDescriptionAsync(description, cancellationToken);
-
-        
-
+            await _logradouroRepository.GetByDescriptionAsync(description, cancellationToken);               
     }
 }

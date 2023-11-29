@@ -4,6 +4,10 @@ using Autofac.Extensions.DependencyInjection;
 using Autofac;
 using ThomasGregChallenge.Infrastructure.CrossCutting.IOC;
 using ThomasGregChallenge.Application.Mapping;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using ThomasGregChallenge.Application.DTOs.Requests;
+using ThomasGregChallenge.Application.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,11 +30,6 @@ builder.Services.AddDbContext<SqlContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
-    builder.RegisterModule(new ModuleIOC()));
-
-builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAnyOrigin", builder =>
@@ -40,6 +39,11 @@ builder.Services.AddCors(options =>
         builder.AllowAnyMethod();
     });
 });
+
+builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+    builder.RegisterModule(new ModuleIOC()));
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 var app = builder.Build();
 
@@ -52,6 +56,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("AllowAnyOrigin");
 }
 
 app.UseHttpsRedirection();
