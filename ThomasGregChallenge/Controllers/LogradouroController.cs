@@ -123,7 +123,7 @@ namespace ThomasGregChallenge.Controllers
             await _logradouroApplicationService.GetAllAsync(cancellationToken);
 
         /// <summary>
-        /// Este endpoint é responsável por obter um cliente do banco de dados
+        /// Este endpoint é responsável por obter um logradouro do banco de dados
         /// </summary>
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>        
