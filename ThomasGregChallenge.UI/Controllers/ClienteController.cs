@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NuGet.Common;
 using ThomasGregChallenge.UI.Models;
 using ThomasGregChallenge.UI.Services;
 
 namespace ThomasGregChallenge.UI.Controllers
 {
-    public class ClienteController(ClienteService clienteServices, LogradouroService logradouroService, TokenService tokenService) : Controller
+    public class ClienteController(ILogger<ClienteController> logger, 
+        ClienteService clienteService, 
+        LogradouroService logradouroService, 
+        TokenService tokenService) : Controller
     {
-        private readonly ClienteService _clienteServicos = clienteServices;
-        private readonly TokenService _tokenService = tokenService;
+        private readonly ILogger<ClienteController> _logger = logger;
+        private readonly ClienteService _clienteService = clienteService;
         private readonly LogradouroService _logradouroService = logradouroService;
+        private readonly TokenService _tokenService = tokenService;
 
         [HttpGet]
         public IActionResult Create()
@@ -28,7 +31,9 @@ namespace ThomasGregChallenge.UI.Controllers
             if (string.IsNullOrWhiteSpace(tokenJwt))
                 return RedirectToActionPermanent("Index", "Login");
 
-            var result = await _clienteServicos.ListarClientesAsync(tokenJwt, cancellationToken);
+            var result = await _clienteService.ListarClientesAsync(tokenJwt, cancellationToken);
+            
+            _logger.LogInformation("Retorno de lista de clientes realizado com sucesso");
 
             return View(result);
         }
@@ -42,14 +47,16 @@ namespace ThomasGregChallenge.UI.Controllers
                 if (string.IsNullOrWhiteSpace(tokenJwt))
                     return RedirectToActionPermanent("Index", "Login");
 
-                var result = await _clienteServicos.SaveClienteAsync(clienteModel, tokenJwt, cancellationToken);
-                TempData["Message"] = "Cliente cadastrado com sucesso";
-                return RedirectToAction("Index");
+                var result = await _clienteService.SaveClienteAsync(clienteModel, tokenJwt, cancellationToken);
+                
+                _logger.LogInformation("Cliente cadastrado com sucesso");
+                
+                return RedirectToAction("Index","Cliente");
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Cliente");
             }
         }
 
@@ -62,12 +69,13 @@ namespace ThomasGregChallenge.UI.Controllers
                 if (string.IsNullOrWhiteSpace(tokenJwt))
                     return RedirectToActionPermanent("Index", "Login");
 
-                var cliente = await _clienteServicos.GetClientByIdAsync(id, tokenJwt, cancellationToken);
+                var cliente = await _clienteService.GetClientByIdAsync(id, tokenJwt, cancellationToken);
                 return View(cliente);
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }
@@ -81,13 +89,16 @@ namespace ThomasGregChallenge.UI.Controllers
                 if (string.IsNullOrWhiteSpace(tokenJwt))
                     return RedirectToActionPermanent("Index", "Login");
 
-                var result = await _clienteServicos.UpdateClienteAsync(clienteModel, tokenJwt, cancellationToken);
-                TempData["Message"] = "Cliente atualizado com sucesso";
+                var result = await _clienteService.UpdateClienteAsync(clienteModel, tokenJwt, cancellationToken);
+                
+                _logger.LogInformation("Cliente atualizado com sucesso");
+
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }
@@ -101,13 +112,16 @@ namespace ThomasGregChallenge.UI.Controllers
                 if (string.IsNullOrWhiteSpace(tokenJwt))
                     return RedirectToActionPermanent("Index", "Login");
 
-                var result = await _clienteServicos.DeleteClienteAsync(id, tokenJwt, cancellationToken);
-                TempData["Message"] = "Cliente excluído com sucesso";
+                var result = await _clienteService.DeleteClienteAsync(id, tokenJwt, cancellationToken);
+                
+                _logger.LogInformation("Cliente excluído com sucesso");
+
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }
@@ -121,12 +135,13 @@ namespace ThomasGregChallenge.UI.Controllers
                 if (string.IsNullOrWhiteSpace(tokenJwt))
                     return RedirectToActionPermanent("Index", "Login");
 
-                var result = await _clienteServicos.GetClientByIdAsync(id, tokenJwt, cancellationToken);
+                var result = await _clienteService.GetClientByIdAsync(id, tokenJwt, cancellationToken);
                 return View(result);
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }
@@ -136,17 +151,17 @@ namespace ThomasGregChallenge.UI.Controllers
         {
             try
             {
-
                 string tokenJwt = VerifyUser();
                 if (string.IsNullOrWhiteSpace(tokenJwt))
                     return RedirectToActionPermanent("Index", "Login");
 
-                var result = await _clienteServicos.ListarClientesAsync(tokenJwt, cancellationToken);
+                var result = await _clienteService.ListarClientesAsync(tokenJwt, cancellationToken);
                 return View(result);
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }
@@ -160,7 +175,7 @@ namespace ThomasGregChallenge.UI.Controllers
                 if (string.IsNullOrWhiteSpace(tokenJwt))
                     return RedirectToActionPermanent("Index", "Login");
 
-                var clienteModel = await _clienteServicos.GetClientByIdAsync(id, tokenJwt, cancellationToken);
+                var clienteModel = await _clienteService.GetClientByIdAsync(id, tokenJwt, cancellationToken);
 
                 clienteModel.Logradouros = await _logradouroService.ObterLogradourosPorClienteAsync(clienteModel.Id, tokenJwt, cancellationToken);
 
@@ -169,6 +184,7 @@ namespace ThomasGregChallenge.UI.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }

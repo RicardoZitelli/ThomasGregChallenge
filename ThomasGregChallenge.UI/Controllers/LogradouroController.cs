@@ -4,23 +4,33 @@ using ThomasGregChallenge.UI.Services;
 
 namespace ThomasGregChallenge.UI.Controllers
 {
-    public class LogradouroController(LogradouroService logradouroService, TokenService tokenService) : Controller
+    public class LogradouroController(ILogger<LogradouroController> logger,
+        ClienteService clienteService,
+        LogradouroService logradouroService,                  
+        TokenService tokenService) : Controller
     {
+        private readonly ILogger<LogradouroController> _logger = logger;
+        private readonly ClienteService _clienteService = clienteService;        
         private readonly LogradouroService _logradouroService = logradouroService;
         private readonly TokenService _tokenService = tokenService;
 
+
         [HttpGet]
-        public IActionResult Create([FromQuery] int clienteId)
+        public async Task<IActionResult> Create([FromQuery] int clienteId, CancellationToken cancellationToken)
         {
             string tokenJwt = VerifyUser();
             if (string.IsNullOrWhiteSpace(tokenJwt))
                 return RedirectToActionPermanent("Index", "Login");
 
+            var clienteModel = await _clienteService.GetClientByIdAsync(clienteId, tokenJwt, cancellationToken);
+            
+            ViewData["Cliente"] = clienteModel.Nome;
+
             return View(new LogradouroModel { Bairro = "", Cidade = "", Endereco = "", Estado = "", Numero = "", ClienteId = clienteId });
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        public IActionResult Index(CancellationToken cancellationToken)
         {
             return RedirectToActionPermanent("Index", "Home");
         }
@@ -35,12 +45,15 @@ namespace ThomasGregChallenge.UI.Controllers
                     return RedirectToActionPermanent("Index", "Login");
                                
                 var result = await _logradouroService.SaveLogradouroAsync(logradouroModel, tokenJwt, cancellationToken);
-                TempData["Message"] = "Logradouro cadastrado com sucesso";
-                return RedirectToAction("Index");
+                
+                _logger.LogInformation("Logradouro cadastrado com sucesso");
+
+                return RedirectToAction("Index","Cliente");
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }
@@ -60,6 +73,7 @@ namespace ThomasGregChallenge.UI.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }
@@ -74,17 +88,20 @@ namespace ThomasGregChallenge.UI.Controllers
                     return RedirectToActionPermanent("Index", "Login");
 
                 var result = await _logradouroService.UpdateLogradouroAsync(logradouroModel, tokenJwt, cancellationToken);
-                TempData["Message"] = "Logradouro atualizado com sucesso";
-                return RedirectToAction("Index");
+                
+                _logger.LogInformation("Logradouro atualizado com sucesso");
+
+                return RedirectToActionPermanent("Details", "Cliente", new { id = logradouroModel.ClienteId });
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }
 
-        [HttpPost]
+        [HttpPost]        
         public async Task<IActionResult> Deletar([Bind] int id, CancellationToken cancellationToken)
         {
             try
@@ -94,12 +111,15 @@ namespace ThomasGregChallenge.UI.Controllers
                     return RedirectToActionPermanent("Index", "Login");
 
                 var result = await _logradouroService.DeleteLogradouroAsync(id, tokenJwt, cancellationToken);
-                TempData["Message"] = "Logradouro excluído com sucesso";
-                return RedirectToAction("Index");
+                
+                _logger.LogInformation("Logradouro excluído com sucesso");
+
+                return RedirectToAction("Index","Cliente");
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }
@@ -119,6 +139,7 @@ namespace ThomasGregChallenge.UI.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }
@@ -138,6 +159,7 @@ namespace ThomasGregChallenge.UI.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }
@@ -157,6 +179,7 @@ namespace ThomasGregChallenge.UI.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }
@@ -176,6 +199,7 @@ namespace ThomasGregChallenge.UI.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
+                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
                 return RedirectToAction("Index");
             }
         }

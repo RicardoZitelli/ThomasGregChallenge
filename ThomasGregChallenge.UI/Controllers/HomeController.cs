@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Drawing.Text;
 using ThomasGregChallenge.UI.Models;
 using ThomasGregChallenge.UI.Services;
 
@@ -16,6 +15,8 @@ namespace ThomasGregChallenge.UI.Controllers
             var token = VerifyUser();
             if (string.IsNullOrWhiteSpace(token))
                 return RedirectToActionPermanent("Index", "Login");
+
+            _logger.LogInformation("Token JWT ativo");
 
             return View();
         }

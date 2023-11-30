@@ -38,7 +38,7 @@ namespace ThomasGregChallenge.UI.Services
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenJwt);
 
-            var response = await _httpClient.DeleteAsync($"{baseAddress}api/v1/Logradouro/Excluir?id={id}", cancellationToken);
+            var response = await _httpClient.DeleteAsync($"{baseAddress}api/v1/Logradouro/Excluir/{id}", cancellationToken);
             response.EnsureSuccessStatusCode();
 
             return await response.Content.ReadAsStringAsync(cancellationToken);
@@ -63,7 +63,8 @@ namespace ThomasGregChallenge.UI.Services
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync(cancellationToken);
-            return JsonConvert.DeserializeObject<LogradouroModel>(content);
+            var retorno = JsonConvert.DeserializeObject<LogradouroModel>(content);
+            return retorno ?? new LogradouroModel { Bairro = "", Numero="", Cidade = "", Endereco = "", Estado = "", ClienteId = 0 };
         }
 
         public async Task<IEnumerable<LogradouroModel>> ObterLogradourosPorDescricaoAsync(string description, string tokenJwt, CancellationToken cancellationToken)

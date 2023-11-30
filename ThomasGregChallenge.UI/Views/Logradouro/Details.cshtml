@@ -14,23 +14,41 @@
             @Html.DisplayNameFor(model => model.Endereco)
         </dt>
         <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Endereco)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Numero)
+        </dt>
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Numero)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Bairro)
         </dt>
         <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Bairro)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cidade)
+        </dt>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Cidade)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Estado)
         </dt>
         <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Complemento)
+        </dt>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Complemento)
         </dd>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
-    <a asp-action="Index">Voltar para a lista</a>
+    <a asp-controller="Cliente" asp-action="Details" asp-route-id="@Model?.ClienteId">Voltar</a>
 </div>

@@ -92,12 +92,12 @@ namespace ThomasGregChallenge.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>        
-        [HttpDelete("Excluir")]
+        [HttpDelete("Excluir/{id}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteAsync(int id, 
+        public async Task<ActionResult> DeleteAsync([FromRoute] int id, 
             CancellationToken cancellationToken)
         {
             try

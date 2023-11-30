@@ -38,7 +38,8 @@ namespace ThomasGregChallenge.UI.Services
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenJwt);
 
-            var response = await _httpClient.DeleteAsync($"{baseAddress}api/v1/Cliente/Excluir?id={id}", cancellationToken);
+            //var response = await _httpClient.DeleteAsync($"{baseAddress}api/v1/Cliente/Excluir?id={id}", cancellationToken);
+            var response = await _httpClient.DeleteAsync($"{baseAddress}api/v1/Cliente/Excluir/{id}", cancellationToken);
             response.EnsureSuccessStatusCode();
 
             return await response.Content.ReadAsStringAsync(cancellationToken);

@@ -15,18 +15,36 @@
             @Html.DisplayNameFor(model => model.Endereco)
         </dt>
         <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Endereco)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Numero)
+        </dt>
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Numero)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Bairro)
         </dt>
         <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Bairro)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cidade)
+        </dt>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Cidade)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Estado)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Complemento)
+        </dt>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Complemento)
         </dd>
     </dl>
@@ -34,6 +52,6 @@
     <form asp-action="Deletar" method="post">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Excluir" class="btn btn-danger" /> |
-        <a asp-action="Index">Voltar</a>
+        <a asp-controller="Cliente" asp-action="Details" asp-route-id="@Model.ClienteId">Voltar</a>
     </form>
 </div>

@@ -7,6 +7,7 @@ namespace ThomasGregChallenge.UI.Models
         public int Id { get; set; }
 
         [StringLength(150)]
+        [Display(Name="Endereço")]
         public required string Endereco { get; set; }
 
         [StringLength(20)]

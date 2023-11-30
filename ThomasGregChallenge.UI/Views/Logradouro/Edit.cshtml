@@ -52,7 +52,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Voltar para a lista</a>
+    <a asp-controller="Cliente" asp-action="Details" asp-route-id="@Model.ClienteId">Voltar</a>
 </div>
 
 @section Scripts {
