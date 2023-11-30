@@ -29,7 +29,8 @@
             @Html.DisplayFor(model => model.Logotipo)
         </dd>
     </dl>
-    @if (Model.Logradouros.Any())
+    @if (Model.Logradouros != null && 
+         Model.Logradouros.Any())
     {
         <table class="table">
             <thead>
