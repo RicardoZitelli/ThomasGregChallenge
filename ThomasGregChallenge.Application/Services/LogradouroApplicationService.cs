@@ -42,6 +42,13 @@ namespace ThomasGregChallenge.Application.Services
             }
         }
 
+        public async Task<IEnumerable<LogradouroResponseDto>> GetByClientIdAsync(int clienteId, CancellationToken cancellationToken)
+        {
+            var logradouros = await _logradouroService.GetByClientIdAsync(clienteId, cancellationToken);
+
+            return _mapper.Map<IEnumerable<LogradouroResponseDto>>(logradouros);
+        }
+
         public async Task<IEnumerable<LogradouroResponseDto>> GetByDescriptionAsync(string description, CancellationToken cancellationToken)
         {
             try

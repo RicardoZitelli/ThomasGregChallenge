@@ -11,5 +11,6 @@ namespace ThomasGregChallenge.Application.Interfaces.Services
         Task<LogradouroResponseDto> GetByIdAsync(int logradouroId, CancellationToken cancellationToken);        
         Task<IEnumerable<LogradouroResponseDto>> GetByDescriptionAsync(string description, CancellationToken cancellationToken);
         Task<IEnumerable<LogradouroResponseDto>> GetAllAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<LogradouroResponseDto>> GetByClientIdAsync(int clienteId, CancellationToken cancellationToken);
     }
 }

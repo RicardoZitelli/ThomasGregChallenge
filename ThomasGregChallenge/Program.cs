@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtSecret").Value!.ToString());
+var key = Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JwtSecret").Value!.ToString());
 
 builder.Services.AddAuthentication(x =>
     {

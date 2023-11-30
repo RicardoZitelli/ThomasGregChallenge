@@ -1,0 +1,94 @@
+﻿@model ThomasGregChallenge.UI.Models.ClienteModel
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<h1>Detalhes</h1>
+
+<div>
+    <h4>Clientes</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Logotipo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Logotipo)
+        </dd>
+    </dl>
+    @if (Model.Logradouros.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Endereço
+                    </th>
+                    <th>
+                        Numero
+                    </th>
+                    <th>
+                        Bairro
+                    </th>
+                    <th>
+                        Cidade
+                    </th>
+                    <th>
+                        Estado
+                    </th>
+                    <th>
+                        Complemento
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Logradouros)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Endereco)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Numero)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Bairro)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cidade)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Estado)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Complemento)
+                        </td>
+                        <td>
+                            <a asp-controller="Logradouro" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                            <a asp-controller="Logradouro" asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                            <a asp-controller="Logradouro" asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
+    <a asp-action="Index">Voltar para a lista</a>
+</div>

@@ -116,6 +116,19 @@ namespace ThomasGregChallenge.Controllers
         }
 
         /// <summary>
+        /// Este endpoint é responsável por listar todos os logradouros de um cliente específico
+        /// </summary>        
+        /// <param name="clienteId"></param>    
+        /// <param name="cancellationToken"></param>    
+        [HttpGet("ObterPorClienteId/{clienteId}")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IEnumerable<LogradouroResponseDto>> GetByClientIdAsync([FromRoute] int clienteId, CancellationToken cancellationToken) =>
+            await _logradouroApplicationService.GetByClientIdAsync(clienteId, cancellationToken);
+
+        /// <summary>
         /// Este endpoint é responsável por listar todos os logradouros do banco de dados
         /// </summary>        
         /// <param name="cancellationToken"></param>        

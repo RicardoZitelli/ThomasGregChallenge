@@ -64,7 +64,7 @@ namespace ThomasGregChallenge.Application.Services
         {
             try
             {                
-                if (await EmailJaExiste(clienteRequestDto.Email, cancellationToken))
+                if (await EmailExists(clienteRequestDto.Id, clienteRequestDto.Email, cancellationToken))
                     throw new Exception("Cliente já existe na base de dados");
 
                 var cliente = _mapper.Map<Cliente>(clienteRequestDto);
@@ -82,7 +82,7 @@ namespace ThomasGregChallenge.Application.Services
         {
             try
             {
-                if (await EmailJaExiste(clienteRequestDto.Email, cancellationToken))
+                if (await EmailExists(clienteRequestDto.Id, clienteRequestDto.Email, cancellationToken))
                     throw new Exception("Este email já está em uso");
 
                 var cliente = _mapper.Map<Cliente>(clienteRequestDto);
@@ -103,11 +103,11 @@ namespace ThomasGregChallenge.Application.Services
             return _mapper.Map<IEnumerable<ClienteResponseDto>>(clientes);
         }
 
-        private async Task<bool> EmailJaExiste(string email, CancellationToken cancellationToken)
+        private async Task<bool> EmailExists(int id, string email, CancellationToken cancellationToken)
         {
             var emailCliente = await _clienteService.GetByDescriptionAsync(email, cancellationToken);
 
-            if (emailCliente.Any(x => x.Email == email))
+            if (emailCliente.Any(x => x.Email == email && x.Id != id))
                 return true;
 
             return false;
