@@ -56,7 +56,7 @@ namespace ThomasGregChallenge.UI.Services
             return JsonConvert.DeserializeObject<IEnumerable<ClienteModel>>(content) ?? new List<ClienteModel>();
         }
 
-        public async Task<ClienteModel?> GetClientByIdAsync(int id, string tokenJwt, CancellationToken cancellationToken)
+        public async Task<ClienteModel> GetClientByIdAsync(int id, string tokenJwt, CancellationToken cancellationToken)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenJwt);
 
@@ -65,7 +65,7 @@ namespace ThomasGregChallenge.UI.Services
 
             var content = await response.Content.ReadAsStringAsync(cancellationToken);
             var result = JsonConvert.DeserializeObject<ClienteModel>(content);
-            return result;
+            return result ?? new ClienteModel { Email="", Logotipo="", Nome=""};
         }
 
         public async Task<IEnumerable<ClienteModel>?> ObterClientesPorDescricaoAsync(string description, string tokenJwt, CancellationToken cancellationToken)

@@ -75,7 +75,7 @@ namespace ThomasGregChallenge.UI.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
-                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
+                _logger.LogError("Algo deu errado. {Message} - {StackTrace}",ex.Message,ex.StackTrace);
                 return RedirectToAction("Index");
             }
         }
@@ -98,7 +98,7 @@ namespace ThomasGregChallenge.UI.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
-                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
+                _logger.LogError("Algo deu errado. {Message} - {StackTrace}", ex.Message, ex.StackTrace);
                 return RedirectToAction("Index");
             }
         }
@@ -121,7 +121,7 @@ namespace ThomasGregChallenge.UI.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
-                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
+                _logger.LogError("Algo deu errado. {Message} - {StackTrace}", ex.Message, ex.StackTrace);
                 return RedirectToAction("Index");
             }
         }
@@ -141,7 +141,7 @@ namespace ThomasGregChallenge.UI.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
-                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
+                _logger.LogError("Algo deu errado. {Message} - {StackTrace}", ex.Message, ex.StackTrace);
                 return RedirectToAction("Index");
             }
         }
@@ -161,7 +161,7 @@ namespace ThomasGregChallenge.UI.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
-                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
+                _logger.LogError("Algo deu errado. {Message} - {StackTrace}", ex.Message, ex.StackTrace);
                 return RedirectToAction("Index");
             }
         }
@@ -184,7 +184,7 @@ namespace ThomasGregChallenge.UI.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Algo deu errado. {ex.Message}";
-                _logger.LogError($"Algo deu errado. {ex.Message} - {ex.StackTrace}");
+                _logger.LogError("Algo deu errado. {Message} - {StackTrace}", ex.Message, ex.StackTrace);
                 return RedirectToAction("Index");
             }
         }

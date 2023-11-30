@@ -25,7 +25,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05-UI", "05-UI", "{2B354303-8FDA-42D7-8778-CEF03E611BCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThomasGregChallenge.UI", "ThomasGregChallenge.UI\ThomasGregChallenge.UI.csproj", "{068C9763-E59C-495A-A407-C9BF1AF8BF7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThomasGregChallenge.UI", "ThomasGregChallenge.UI\ThomasGregChallenge.UI.csproj", "{068C9763-E59C-495A-A407-C9BF1AF8BF7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
