@@ -3,7 +3,7 @@ version: '3.4'
 networks:
     thomasgregchallengeapp:
 
-services:
+services:  
   thomasgregchallengedb:
     container_name: thomasgregchallengedb
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -18,14 +18,14 @@ services:
        - thomasgregchallengeapp
     volumes:  
       - sqlserver_data:/var/opt/mssql  
-  thomasgregchallenge:
-    container_name: thomasgregchallengeui
-    image: ${DOCKER_REGISTRY-}thomasgregchallenge
+  thomasgregchallengeapi:
+    container_name: thomas-greg-challenge-api
+    image: ${DOCKER_REGISTRY-}thomasgregchallengeapi
     build:
       context: .
       dockerfile: ThomasGregChallenge/Dockerfile
     ports:
-      - 8085:82
+      - 8085:85
       - 56321:445
     depends_on:
       - thomasgregchallengedb
@@ -36,7 +36,23 @@ services:
       - DB_SA_PASSWORD=1Q2w3e4r
       - DB_PORT=1433
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:445;http://+:82
+      - ASPNETCORE_URLS=https://+:445;http://+:85   
+    networks:
+      - thomasgregchallengeapp
+  thomasgregchallenge.ui:
+    container_name: thomas-greg-challenge-ui
+    image: ${DOCKER_REGISTRY-}thomasgregchallengeui
+    build:
+      context: .
+      dockerfile: ThomasGregChallenge.UI/Dockerfile
+    ports:
+      - 8081:81
+      - 56322:444
+    depends_on:
+      - thomasgregchallengeapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:444;http://+:81
     networks:
       - thomasgregchallengeapp
 volumes:

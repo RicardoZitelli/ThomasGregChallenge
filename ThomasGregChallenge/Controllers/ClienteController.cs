@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ThomasGregChallenge.Application.DTOs.Requests;
 using ThomasGregChallenge.Application.DTOs.Responses;
@@ -22,6 +23,7 @@ namespace ThomasGregChallenge.Controllers
         /// <param name="validator"></param>
         /// <param name="cancellationToken"></param>        
         [HttpPost("Gravar")]
+        [Authorize(Roles="Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -56,6 +58,7 @@ namespace ThomasGregChallenge.Controllers
         /// <param name="cancellationToken"></param>        
         /// <param name="validator"></param>        
         [HttpPut("Atualizar")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -90,6 +93,7 @@ namespace ThomasGregChallenge.Controllers
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>        
         [HttpDelete("Excluir")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -116,6 +120,7 @@ namespace ThomasGregChallenge.Controllers
         /// </summary>        
         /// <param name="cancellationToken"></param>        
         [HttpGet("Listar")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -128,6 +133,7 @@ namespace ThomasGregChallenge.Controllers
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>        
         [HttpGet("Obter/{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -141,6 +147,7 @@ namespace ThomasGregChallenge.Controllers
         /// <param name="description"></param>
         /// <param name="cancellationToken"></param>        
         [HttpGet("ObterPorDescricao")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

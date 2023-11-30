@@ -2,12 +2,12 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 82
+EXPOSE 85
 EXPOSE 445
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["ThomasGregChallenge/ThomasGregChallenge.csproj", "ThomasGregChallenge/"]
+COPY ["ThomasGregChallenge/ThomasGregChallenge.Api.csproj", "ThomasGregChallenge/"]
 COPY ["ThomasGregChallenge.Infraestrutura/ThomasGregChallenge.Infrastructure.csproj", "ThomasGregChallenge.Infraestrutura/"]
 COPY ["ThomasGregChallenge.Domain/ThomasGregChallenge.Domain.csproj", "ThomasGregChallenge.Dominio/"]
 COPY ["ThomasGregChallenge.Application/ThomasGregChallenge.Application.csproj", "ThomasGregChallenge.Services/"]
