@@ -82,7 +82,8 @@ builder.Services.AddSwaggerGen(c =>
 
 var connectionString = builder
     .Configuration
-    .GetConnectionString("DefaultConnection")?
+    //.GetConnectionString("DefaultConnection")?
+    .GetConnectionString("DefaultConnectionDocker")?
     .Replace("{Server}", Environment.GetEnvironmentVariable("DB_HOST"))
     .Replace("{Port}", Environment.GetEnvironmentVariable("DB_PORT"))
     .Replace("{Database}", Environment.GetEnvironmentVariable("DB_NAME"))
