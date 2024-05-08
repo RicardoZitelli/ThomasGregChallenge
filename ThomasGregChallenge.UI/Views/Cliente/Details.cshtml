@@ -79,9 +79,8 @@
                             @Html.DisplayFor(modelItem => item.Complemento)
                         </td>
                         <td>
-                            <a asp-controller="Logradouro" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                            <a asp-controller="Logradouro" asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-                            <a asp-controller="Logradouro" asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                            <button type="button" class="btn btn-warning" onclick="location.href='/Logradouro/Edit/@item.Id'">Editar</button> 
+                            <button type="button" class="btn btn-danger" onclick="location.href='/Logradouro/Delete/@item.Id'">Excluir</button>
                         </td>
                     </tr>
                 }
@@ -90,6 +89,6 @@
     }
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
-    <a asp-action="Index">Voltar para a lista</a>
+    <button type="button" class="btn btn-warning" onclick="location.href='/Cliente/Edit/@Model?.Id'">Editar</button> 
+    <button type="button" class="btn btn-primary" onclick="location.href='/Cliente'">Voltar</button> 
 </div>
